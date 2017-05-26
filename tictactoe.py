@@ -4,9 +4,9 @@ winningPositions = [[[0, 0], [0, 1], [0, 2]], [[0, 0], [1, 0], [2, 0]],
                     [[2, 0], [1, 1], [0, 2]], [[2, 0], [1, 1], [0, 2]]]
 # Game board {List} that has to be setup.
 gameBoard = []
-# Init with no winning
+# Init with no winning.
 gameWon = False
-# Number of times the X has been replaced
+# Number of times the X has been replaced.
 timesMoved = 0
 
 
@@ -28,17 +28,27 @@ def printBoard():
 
 def setPosition(currentrow, currentcol, playername):
     """Set the location of the cursor to the required position"""
-    gameBoard[currentrow][currentcol] = playername
+    if gameBoard[currentrow][currentcol] == 'X':
+        gameBoard[currentrow][currentcol] = playername
+        global timesMoved
+        timesMoved += 1
+    else:
+        print("Can't Change already used cell ", [currentrow+1][currentrow+1])
 
 
 if __name__ == '__main__':
     playerName = input("Please enter Name: ")
-    print("Your name will be referred to as :", playerName[0])
+    print("Your name will be referred to as :", playerName[0].upper())
     print("The following is the board: ")
     generateBoard()
     printBoard()
-    print("Where do you want the move to be? ")
-    row = int(input("Enter row: ")) - 1
-    col = int(input("Enter col: ")) - 1
-    setPosition(row, col, playerName[0])
-    printBoard()
+
+    while timesMoved < 6:
+        print("Where do you want the move to be? Enter an inclusive value between 0 and 3.")
+        row = int(input("Enter row: ")) - 1
+        col = int(input("Enter col: ")) - 1
+        setPosition(row, col, playerName[0].upper())
+        printBoard()
+        print("timesMoved: ", timesMoved)
+
+
