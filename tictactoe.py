@@ -1,12 +1,17 @@
+# All the winning positions to check and validate
 winningPositions = [[[0, 0], [0, 1], [0, 2]], [[0, 0], [1, 0], [2, 0]],
                     [[2, 0], [2, 1], [2, 2]], [[2, 2], [1, 2], [0, 2]],
                     [[2, 0], [1, 1], [0, 2]], [[2, 0], [1, 1], [0, 2]]]
-
+# Game board {List} that has to be setup.
 gameBoard = []
+# Init with no winning
 gameWon = False
+# Number of times the X has been replaced
+timesMoved = 0
 
 
 def generateBoard():
+    """ Generates 3 * 3 game board """
     for row in range(3):
         gameBoard.append([])
         for col in range(3):
@@ -14,12 +19,15 @@ def generateBoard():
 
 
 def printBoard():
+    """Print the generated game board"""
     for row in gameBoard:
+        # print the board such that every element of the row must be
+        # in its appropriate position by joining the row list.
         print(" ".join(row))
 
 
-
 def setPosition(currentrow, currentcol, playername):
+    """Set the location of the cursor to the required position"""
     gameBoard[currentrow][currentcol] = playername
 
 
