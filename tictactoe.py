@@ -81,60 +81,59 @@ def hasWon():
         if condition2 != 'X' and condition2 != 'C':
             userScore['user'] += 1
 
-        # print(userScore)
-        if userScore['user'] == 3:
-            print("You won the game!")
+        if userScore['user'] == 3 and userScore['C'] == 3:
+            print("Both won the game!")
             global gameWon
             gameWon = True
+            return True
+
+        elif userScore['user'] == 3:
+            print("You won the game!")
+            gameWon = True
+            return True
 
         elif userScore['C'] == 3:
             print("Computer Won!")
             gameWon = True
-    return True
+            return True
+
+        elif timesMoved == 9 and (userScore['user'] < 3 or userScore['C']) < 3:
+            print("Draw Match")
+            gameWon = True
+            return True
+
+    return False
 
 
 if __name__ == '__main__':
+    print("Welcome to Tic Tac Toe Game!")
     playerName = input("Please enter Name: ")
-    print("Your name will be referred to as :", playerName[0].upper())
+    while len(playerName) <= 3:
+        playerName = input("Please enter Name having more than 3 characters: ")
+
+    if playerName[0].lower() == 'c':
+        playerName = playerName[1]
+
+    playerName = playerName[0].upper()
+    print("Your name will be referred to as :", playerName)
     print("The following is the board: ")
     generateBoard()
     printBoard()
 
     while not gameWon:
+        # Check for winning condition only if there is than 6 or just 6 turns played.
+        # checking before 6 is not optimal. It requires 3*2 turns to decide the winner.
+        # Or Sometimes 5 is sufficient, only in few rare cases.
         if timesMoved >= 6:
             if hasWon():
                 break
 
-        print("Where do you want the move to be? Enter an inclusive value between 1 and 3.")
+        print("Where do you want the next move to be? Enter an inclusive value between 1 and 3.")
         row = int(input("Enter row: ")) - 1
         col = int(input("Enter col: ")) - 1
-        if setUserPosition(row, col, playerName[0].upper()):
-            print("Computer is playing now")
+        if setUserPosition(row, col, playerName):
+            print("After Computer Playing the Results are:")
+            print("'C' Represents the computer")
             if timesMoved < 9:
                 computerPlay()
         printBoard()
-        print("timesMoved: ", timesMoved)
-
-# if __name__ == '__main__':
-#     userScore = {'C': 0, 'user': 0}
-#     generateBoard()
-#     for winningPosition in winningPositions:
-#         condition = gameBoard[winningPosition[0]][winningPosition[1]]
-#         if condition == 'C':
-#             userScore['C'] += 1
-#         if condition != 'X' and condition != 'C':
-#             userScore['user'] += 1
-#
-#         condition1 = gameBoard[winningPosition[1]][winningPosition[2]]
-#         if condition1 == 'C':
-#             userScore['C'] += 1
-#         if condition1 != 'X' and condition1 != 'C':
-#             userScore['user'] += 1
-#
-#         condition2 = gameBoard[winningPosition[2]][winningPosition[3]]
-#         if condition2 == 'C':
-#             userScore['C'] += 1
-#         if condition2 != 'X' and condition2 != 'C':
-#             userScore['user'] += 1
-#
-#     print(userScore)
