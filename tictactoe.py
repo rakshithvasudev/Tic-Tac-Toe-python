@@ -1,9 +1,8 @@
 from random import randint
 
 # All the winning positions to check and validate
-winningPositions = [[[0, 0], [0, 1], [0, 2]], [[0, 0], [1, 0], [2, 0]],
-                    [[2, 0], [2, 1], [2, 2]], [[2, 2], [1, 2], [0, 2]],
-                    [[2, 0], [1, 1], [0, 2]], [[2, 0], [1, 1], [0, 2]]]
+winningPositions = [[0, 0, 0, 1, 0, 2], [0, 0, 1, 0, 2, 0],
+                    [2, 0, 2, 1, 2, 2], [2, 2, 1, 2, 0, 2], [2, 0, 1, 1, 0, 2], [2, 0, 1, 1, 0, 2]]
 # Game board {List} that has to be setup.
 gameBoard = []
 # Init with no winning.
@@ -58,6 +57,42 @@ def generateTwoRandoms():
     return [randomRow, randomCol]
 
 
+def hasWon():
+    """Traverse through the winning Sequences and 
+    check if the same player has equal to 3 occurrences. """
+
+    for winningPosition in winningPositions:
+        userScore = {'C': 0, 'user': 0}
+        condition = gameBoard[winningPosition[0]][winningPosition[1]]
+        if condition == 'C':
+            userScore['C'] += 1
+        if condition != 'X' and condition != 'C':
+            userScore['user'] += 1
+
+        condition1 = gameBoard[winningPosition[2]][winningPosition[3]]
+        if condition1 == 'C':
+            userScore['C'] += 1
+        if condition1 != 'X' and condition1 != 'C':
+            userScore['user'] += 1
+
+        condition2 = gameBoard[winningPosition[4]][winningPosition[5]]
+        if condition2 == 'C':
+            userScore['C'] += 1
+        if condition2 != 'X' and condition2 != 'C':
+            userScore['user'] += 1
+
+        # print(userScore)
+        if userScore['user'] == 3:
+            print("You won the game!")
+            global gameWon
+            gameWon = True
+
+        elif userScore['C'] == 3:
+            print("Computer Won!")
+            gameWon = True
+    return True
+
+
 if __name__ == '__main__':
     playerName = input("Please enter Name: ")
     print("Your name will be referred to as :", playerName[0].upper())
@@ -65,7 +100,11 @@ if __name__ == '__main__':
     generateBoard()
     printBoard()
 
-    while timesMoved < 10:
+    while not gameWon:
+        if timesMoved >= 6:
+            if hasWon():
+                break
+
         print("Where do you want the move to be? Enter an inclusive value between 1 and 3.")
         row = int(input("Enter row: ")) - 1
         col = int(input("Enter col: ")) - 1
@@ -75,3 +114,27 @@ if __name__ == '__main__':
                 computerPlay()
         printBoard()
         print("timesMoved: ", timesMoved)
+
+# if __name__ == '__main__':
+#     userScore = {'C': 0, 'user': 0}
+#     generateBoard()
+#     for winningPosition in winningPositions:
+#         condition = gameBoard[winningPosition[0]][winningPosition[1]]
+#         if condition == 'C':
+#             userScore['C'] += 1
+#         if condition != 'X' and condition != 'C':
+#             userScore['user'] += 1
+#
+#         condition1 = gameBoard[winningPosition[1]][winningPosition[2]]
+#         if condition1 == 'C':
+#             userScore['C'] += 1
+#         if condition1 != 'X' and condition1 != 'C':
+#             userScore['user'] += 1
+#
+#         condition2 = gameBoard[winningPosition[2]][winningPosition[3]]
+#         if condition2 == 'C':
+#             userScore['C'] += 1
+#         if condition2 != 'X' and condition2 != 'C':
+#             userScore['user'] += 1
+#
+#     print(userScore)
